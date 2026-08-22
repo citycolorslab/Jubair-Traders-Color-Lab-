@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jubair-traders-final-v1';
+const CACHE_NAME = 'jubair-traders-v10';
 const ASSETS = [
   './',
   './index.html',
@@ -7,35 +7,20 @@ const ASSETS = [
   'https://cloudflare.com'
 ];
 
-// ফাইলগুলো মোবাইলের ক্যাশ মেমরিতে সেভ করা
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    }).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
   );
 });
 
-// পুরাতন ক্যাশ ফাইল ডিলিট করা
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys().then((keys) => Promise.all(keys.map((key) => key !== CACHE_NAME && caches.delete(key)))).then(() => self.clients.claim())
   );
 });
 
-// নেট না থাকলে সেভ করা লোকাল ক্যাশ থেকে ফাইল চালানো
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((cachedResponse) => {
-      return cachedResponse || fetch(e.request);
-    })
+    caches.match(e.request).then((cachedResponse) => cachedResponse || fetch(e.request))
   );
 });
