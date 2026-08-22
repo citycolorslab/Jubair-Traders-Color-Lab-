@@ -328,13 +328,9 @@ table td:nth-child(2) {
       <div class="shop-address"><h5>Choity Mansion, Girls School Road Shaistaganj, Habiganj.</h5></div>
 
         <!-- Search Input Box -->
-    <div class="search-box-container" style="position: relative; display: flex; align-items: center; width: 100%; z-index: 99999;">
-      <!-- মূল ইনপুট বক্স যা অফলাইনেও ক্লিক ও টাইপ করা যাবে -->
-      <input type="text" id="search-input" class="search-box" placeholder="Search for filter" onkeyup="searchData()" autocomplete="off" inputmode="text" style="pointer-events: auto !important; position: relative; z-index: 99999; width: 100%; padding-right: 40px;"> 
-      
-      <!-- অফলাইন রেডি সার্চ আইকন (এটি ইন্টারনেট ছাড়া কখনোই গায়েব হবে线 না) -->
-      <span class="search-icon" style="position: absolute; right: 15px; color: #555; pointer-events: none; font-size: 18px; font-family: sans-serif;">🔍</span>
-    </div>
+    <!-- Simplified Offline Search Box -->
+<input type="text" id="search-input" class="search-box" placeholder="🔍 Search for filter..." onkeyup="searchData()" autocomplete="off" inputmode="text" style="pointer-events: auto !important; position: relative; z-index: 999999 !important; width: 100%; display: block; padding: 12px 15px; border: 1px solid #ccc; border-radius: 25px; box-sizing: border-box;">
+
 
 
     </div>
