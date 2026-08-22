@@ -1,0 +1,17 @@
+{
+  "short_name": "Jubair Traders",
+  "name": "Jubair Traders and City Color Lab",
+  "icons": [
+    {
+      "src": "https://flaticon.com",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "display": "standalone",
+  "orientation": "portrait"
+}

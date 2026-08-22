@@ -1,0 +1,41 @@
+const CACHE_NAME = 'jubair-traders-v6';
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  'https://cloudflare.com',
+  'https://cloudflare.com'
+];
+
+// ফাইলগুলো মোবাইলের ক্যাশ মেমরিতে সেভ করা
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS);
+    }).then(() => self.skipWaiting())
+  );
+});
+
+// পুরাতন ক্যাশ ফাইল ডিলিট করা
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// নেট না থাকলে সেভ করা লোকাল ক্যাশ থেকে ফাইল চালানো
+self.addEventListener('fetch', (e) => {
+  e.respondWith(
+    caches.match(e.request).then((cachedResponse) => {
+      return cachedResponse || fetch(e.request);
+    })
+  );
+});
