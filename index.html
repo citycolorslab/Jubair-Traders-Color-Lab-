@@ -327,11 +327,15 @@ table td:nth-child(2) {
       <div class="shop-title"><h2 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Jubair Traders and City Color Lab</h2></div>
       <div class="shop-address"><h5>Choity Mansion, Girls School Road Shaistaganj, Habiganj.</h5></div>
 
-     <!-- Search Input Box -->
-      <div class="search-box-container" style="position: relative; z-index: 99999;">
-        <input type="text" id="search-input" class="search-box" placeholder="Search for filter" onkeyup="searchData()" autocomplete="off" inputmode="text" style="pointer-events: auto !important; position: relative; z-index: 99999;"> 
-        <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      </div>
+        <!-- Search Input Box -->
+    <div class="search-box-container" style="position: relative; display: flex; align-items: center; width: 100%; z-index: 99999;">
+      <!-- মূল ইনপুট বক্স যা অফলাইনেও ক্লিক ও টাইপ করা যাবে -->
+      <input type="text" id="search-input" class="search-box" placeholder="Search for filter" onkeyup="searchData()" autocomplete="off" inputmode="text" style="pointer-events: auto !important; position: relative; z-index: 99999; width: 100%; padding-right: 40px;"> 
+      
+      <!-- অফলাইন রেডি সার্চ আইকন (এটি ইন্টারনেট ছাড়া কখনোই গায়েব হবে线 না) -->
+      <span class="search-icon" style="position: absolute; right: 15px; color: #555; pointer-events: none; font-size: 18px; font-family: sans-serif;">🔍</span>
+    </div>
+
 
     </div>
 
