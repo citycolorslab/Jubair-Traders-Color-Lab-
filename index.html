@@ -375,7 +375,7 @@ table td:nth-child(2) {
     </div>
   </div>
 
-  <script>
+    <script>
     let globalData = [];
 
     // Auto Load Data from LocalStorage on Startup
@@ -418,7 +418,6 @@ table td:nth-child(2) {
     // Process Raw JSON to Standard Data
     function processExcelJSON(rows) {
       globalData = [];
-      // Row 0 usually contains headers; skip it or parse from Row 1
       for (let i = 1; i < rows.length; i++) {
         const row = rows[i];
         if (!row || row.length === 0) continue;
@@ -449,8 +448,12 @@ table td:nth-child(2) {
       const tbody = document.getElementById('table-body');
       const countLabel = document.getElementById('item-count');
       
+      if (!tbody) return;
       tbody.innerHTML = '';
-      countLabel.textContent = `মোট আইটেম: ${dataList.length} টি`;
+      
+      if (countLabel) {
+        countLabel.textContent = `মোট আইটেম: ${dataList.length} টি`;
+      }
 
       if (dataList.length === 0) {
         tbody.innerHTML = `<tr><td colspan="10" class="no-data">কোনো ম্যাচিং তথ্য পাওয়া যায়নি।</td></tr>`;
@@ -477,9 +480,12 @@ table td:nth-child(2) {
       });
     }
 
-    // Real-time Excel Like Filter Search
+    // Real-time Excel Like Filter Search (অফলাইনেও কাজ করার জন্য আপডেট করা হলো)
     function filterItems() {
-      const query = document.getElementById('search-input').value.toLowerCase().trim();
+      const searchInput = document.getElementById('search-input');
+      if (!searchInput) return;
+      
+      const query = searchInput.value.toLowerCase().trim();
       
       if (!query) {
         renderTable(globalData);
@@ -487,28 +493,37 @@ table td:nth-child(2) {
       }
 
       const filtered = globalData.filter(item => {
-        return item.itemName.toLowerCase().includes(query);
+        const nameMatch = item.itemName ? item.itemName.toLowerCase().includes(query) : false;
+        const priceMatch = item.retailPrice ? item.retailPrice.toString().toLowerCase().includes(query) : false;
+        return nameMatch || priceMatch;
       });
 
       renderTable(filtered);
     }
-  </script>
-      <!-- Footer Section -->
-    <footer class="app-footer">
-      <p>&copy; 2026 Jubair Traders and City Color Lab. All Rights Reserved.</p>
-    </footer>
-  </div> <!-- এই </div> টি আপনার app-container এর শেষ ব্র্যাকেট -->
 
-<!-- PWA সার্ভিস ওয়ার্কার রেজিস্টার করার কোড -->
+    // অল্টারনেটিভ সাপোর্ট ফাংশন (সার্চ বক্স জ্যাম রোধ করতে)
+    function searchData() {
+      filterItems();
+    }
+  </script>
+  
+  <!-- Footer Section -->
+  <footer class="app-footer">
+    <p>&copy; 2026 Jubair Traders and City Color Lab. All Rights Reserved.</p>
+  </footer>
+</div>
+
+<!-- PWA SERVICE WORKER REGISTRATION -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('সফলভাবে অফলাইন মোড চালু হয়েছে!', reg.scope))
-        .catch((err) => console.log('অফলাইন মোড চালু করতে সমস্যা হয়েছে:', err));
+        .then((reg) => console.log('Offline system activated successfully!', reg.scope))
+        .catch((err) => console.error('Offline system activation failed:', err));
     });
   }
 </script>
 
 </body>
 </html>
+
